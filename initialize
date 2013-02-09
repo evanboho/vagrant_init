@@ -62,6 +62,8 @@ gem install bundler
 rbenv rehash
 bundle 
 
+. /vagrant/vagrant_init/set_env_vars 
+
 # Postgres Set-up
 echo "type '\password postgres' to set password"
 echo "type 'SET client_encoding = 'utf8'; to set encoding"
