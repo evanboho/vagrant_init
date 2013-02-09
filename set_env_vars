@@ -2,7 +2,7 @@ if [ -f ~/.bash_env_vars ]; then
   rm ~/.bash_env_vars
 fi
 echo DB_USER=postgres >> ~/.bash_env_vars
-echo DB_ENCODING=utf8 >> ~/.bash_env_vars
+echo DB_ENCODING=LATIN1 >> ~/.bash_env_vars
 echo "Enter a database password for postgres: "
 read password
 echo "Enter it again: "
