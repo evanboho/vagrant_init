@@ -1,15 +1,17 @@
 if [ -f ~/.bash_env_vars ]; then
   rm ~/.bash_env_vars
 fi
-echo DB_USER=postgres >> ~/.bash_env_vars
-echo DB_ENCODING=LATIN1 >> ~/.bash_env_vars
+echo "export DB_USER=postgres" >> ~/.bash_env_vars
+echo "DB_ENCODING=LATIN1" >> ~/.bash_env_vars
 echo "Enter a database password for postgres: "
 read password
 echo "Enter it again: "
 read password_confirmation
 if [ $password == $password_confirmation ]; then
-  echo DB_PW=$password >> ~/.bash_env_vars
+  echo "DB_PW=$password" >> ~/.bash_env_vars
 else
   echo "Error: passwords didn't match"
   echo "Run . ~/.init_env_vars again"
 fi
+
+source ~/.bashrc
