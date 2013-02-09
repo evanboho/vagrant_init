@@ -1,0 +1,70 @@
+#!/bin/bash
+
+sudo apt-get update
+sudo apt-get install build-essential zlib1g-dev git-core -y
+sudo apt-get autoremove -y
+
+SET_RUBY_VER="1.9.3"
+DASH="-"
+SET_PATCH="p327"
+CURR_VER="$(ruby -v)"
+CURR_VER=${CURR_VER:4:6}
+
+echo "so far so good..."
+echo $CURR_VER
+echo $SET_RUBY_VER$DASH$SET_PATCH
+
+if [ $CURR_VER != $SET_RUBY_VER$SET_PATCH ]; then
+  # install rbenv 
+  cd
+  git clone git://github.com/sstephenson/rbenv.git .rbenv
+  echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.profile
+  echo 'eval "$(rbenv init -)"' >> ~/.profile
+  source ~/.profile
+
+  # install ruby-build
+  cd
+  git clone git://github.com/sstephenson/ruby-build.git
+  cd ruby-build
+  sudo ./install.sh
+
+  # install ruby with version
+  rbenv install $SET_RUBY_VER$DASH$SET_PATCH
+  rbenv rehash
+  rbenv global $SET_RUBY_VER$DASH$SET_PATCH
+fi
+
+# Update 
+sudo update-locale LANG=en_US.utf8
+
+# Get add-apt-repository command
+sudo apt-get install python-software-properties -y
+
+# Add apt-repository for postgres to get 9.2
+sudo add-apt-repository ppa:pitti/postgresql -y
+sudo apt-get update
+
+# postgres
+# https://help.ubuntu.com/community/PostgreSQL
+sudo apt-get install postgresql-9.2 -y
+
+# Create ENV variables 
+echo "if [ -f ~/.bash_env_vars ]; then" >> ~/.bashrc
+echo "    . ~/.bash_env_vars" >> ~/.bashrc
+echo "fi" >> ~/.bashrc
+
+# necessary for nokogiri gem
+sudo apt-get install libxslt-dev libxml2-dev -y 
+# necessary for postgres gem
+sudo apt-get install libpq-dev -y
+cd /vagrant
+gem install bundler
+rbenv rehash
+bundle 
+
+# Postgres Set-up
+echo "type '\password postgres' to set password"
+echo "type 'SET client_encoding = 'utf8'; to set encoding"
+sudo -u postgres  psql postgres
+# \password postgres
+# SET client_encoding = 'utf8';
