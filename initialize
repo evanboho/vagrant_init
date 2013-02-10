@@ -66,7 +66,7 @@ bundle
 
 # Postgres Set-up
 echo "type '\password postgres' to set password"
-echo "type 'SET client_encoding = 'utf8'; to set encoding"
+# echo "type 'SET client_encoding = 'utf8'; to set encoding"
 sudo -u postgres  psql postgres
 # \password postgres
 # SET client_encoding = 'utf8';
